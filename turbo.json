@@ -11,6 +11,7 @@
   ],
   "tasks": {
     "generate": {
+      "dependsOn": ["^build"],
       "outputs": [
         "zenstack/**",
         "tests/fixtures/zenstack/**",
