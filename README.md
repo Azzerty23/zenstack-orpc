@@ -1,6 +1,6 @@
 # zenstack-orpc
 
-Monorepo of [`zenstack-orpc`](packages/core) — ZenStack v3 × oRPC v2 (beta) integration — and
+Monorepo of [`@azzerty23/zenstack-orpc`](packages/core) — ZenStack v3 × oRPC v2 (beta) integration — and
 its example app.
 
 | Path | |

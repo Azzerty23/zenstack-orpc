@@ -6,7 +6,7 @@ import { getAllFields, getAttributeArg, getLiteral, getLiteralArray } from '@zen
 /**
  * ZenStack CLI plugin.
  *
- * Declared in ZModel with `plugin orpc { provider = 'zenstack-orpc/plugin-orpc' }`, it loads `plugin.zmodel`
+ * Declared in ZModel with `plugin orpc { provider = '@azzerty23/zenstack-orpc/plugin-orpc' }`, it loads `plugin.zmodel`
  * (the `@file` attribute) and generates `orpc.ts` next to `schema.ts`. That file exposes:
  * - `fileFields`: the `@file` fields, as a const value (attribute names are erased from the
  *   `SchemaDef` types);

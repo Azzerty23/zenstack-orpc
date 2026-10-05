@@ -1,6 +1,7 @@
 // End-to-end check of live queries over HTTP/SSE. Run the server, sign up alice@x.com and bob@x.com
 // (password: password1234), then: `bun run e2e:live` (SERVER=http://localhost:3000 by default).
 
+import { createZenStackQueryUtils } from '@azzerty23/zenstack-orpc/tanstack-query'
 import { fileFields } from '@example/server/orpc-meta'
 import type { AppRouter } from '@example/server/router'
 import { schema } from '@example/server/schema'
@@ -8,7 +9,6 @@ import { createORPCClient } from '@orpc/client'
 import { RPCLink } from '@orpc/client/fetch'
 import type { RouterClient } from '@orpc/server'
 import { QueryClient, QueryObserver } from '@tanstack/react-query'
-import { createZenStackQueryUtils } from 'zenstack-orpc/tanstack-query'
 
 const origin = process.env.SERVER ?? 'http://localhost:3000'
 

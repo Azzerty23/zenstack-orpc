@@ -1,5 +1,5 @@
+import { isZenStackError } from '@azzerty23/zenstack-orpc/client'
 import { ORPCError } from '@orpc/client'
-import { isZenStackError } from 'zenstack-orpc/client'
 
 /** A readable message for a failed call. */
 export function errorMessage(error: unknown): string {

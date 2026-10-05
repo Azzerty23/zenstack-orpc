@@ -9,7 +9,7 @@ TanStack Query utils with automatic invalidation and optimistic updates. Access 
 > `@zenstackhq/*@^3.9`. Node 20+. Tested on SQLite and Postgres.
 
 ```bash
-bun add zenstack-orpc @orpc/server@beta @orpc/client@beta @zenstackhq/orm zod
+bun add @azzerty23/zenstack-orpc @orpc/server@beta @orpc/client@beta @zenstackhq/orm zod
 # optional, per feature
 bun add @orpc/openapi@beta @orpc/zod@beta     # REST / OpenAPI
 bun add @orpc/publisher@beta                   # live queries
@@ -21,7 +21,7 @@ bun add @orpc/tanstack-query@beta @tanstack/react-query
 
 ```ts
 import { os, ORPCError } from '@orpc/server'
-import { createZenStackRouter } from 'zenstack-orpc'
+import { createZenStackRouter } from '@azzerty23/zenstack-orpc'
 import { schema } from './zenstack/schema'
 
 const base = os.$context<{ db: typeof authDb; user: User | null }>()
@@ -73,7 +73,7 @@ The callback needs a client wrapped by `createZenStackClient`, `typedClient` or
 steps, where `txRef(step, ...path)` references the result of an earlier one:
 
 ```ts
-import { txRef } from 'zenstack-orpc/client'
+import { txRef } from '@azzerty23/zenstack-orpc/client'
 
 await client.db.$transaction([
   { model: 'Post', op: 'create', args: { data: { title: 'Hello' } } },
@@ -123,7 +123,7 @@ on your own procedures for the same result. On the client, `isZenStackError`
 narrows `error.data`:
 
 ```ts
-import { isZenStackError } from 'zenstack-orpc/client'
+import { isZenStackError } from '@azzerty23/zenstack-orpc/client'
 
 if (isZenStackError(error, 'rejected-by-policy')) toast("You can't edit this post")
 if (isZenStackError(error, 'db-query-error') && error.data.dbErrorCode === '23505') toast('Already taken')
@@ -163,7 +163,7 @@ REST, `Decimal`s are strings and `Bytes` are base64 strings, in both directions.
 ## REST / OpenAPI
 
 ```ts
-import { createZenStackOpenAPIRouter, ZenStackJsonSchemaConverter } from 'zenstack-orpc/openapi'
+import { createZenStackOpenAPIRouter, ZenStackJsonSchemaConverter } from '@azzerty23/zenstack-orpc/openapi'
 
 const restRouter = createZenStackOpenAPIRouter(schema, { base: authed, getDb: (ctx) => ctx.db })
 
@@ -234,7 +234,7 @@ The RPC router exposes a `$changes` stream; clients use `liveOptions` like `quer
 
 ```ts
 import { MemoryPublisher } from '@orpc/publisher/memory'
-import { zenstackLive, type ZenStackChangeEvents } from 'zenstack-orpc'
+import { zenstackLive, type ZenStackChangeEvents } from '@azzerty23/zenstack-orpc'
 
 const publisher = new MemoryPublisher<ZenStackChangeEvents>({ resume: { enabled: true } })
 const db = new ZenStackClient(schema, { dialect }).$use(zenstackLive(schema, publisher))
@@ -323,7 +323,7 @@ browser. `zenstackHydration` keeps `Date`, `BigInt`, `Decimal` and `Bytes` value
 dehydrated JSON:
 
 ```ts
-import { connectLive, createZenStackQueryUtils, zenstackHydration } from 'zenstack-orpc/tanstack-query'
+import { connectLive, createZenStackQueryUtils, zenstackHydration } from '@azzerty23/zenstack-orpc/tanstack-query'
 
 // Server (one QueryClient per request)
 const serverOrpc = createZenStackQueryUtils(createRouterClient(router, { context }), { schema, path: 'db' })
@@ -348,7 +348,7 @@ field types, and the `///` comments used by the OpenAPI spec).
 
 ```zmodel
 plugin orpc {
-  provider = 'zenstack-orpc/plugin-orpc'
+  provider = '@azzerty23/zenstack-orpc/plugin-orpc'
 }
 
 model Post {
@@ -358,7 +358,7 @@ model Post {
 ```
 
 ```ts
-import { createFsStorage } from 'zenstack-orpc/node'
+import { createFsStorage } from '@azzerty23/zenstack-orpc/node'
 import { TmpFileUploadHandlerPlugin } from '@orpc/node'
 
 createZenStackRouter(schema, { getDb, files: { storage: createFsStorage({ dir: 'uploads' }) } })
@@ -381,13 +381,13 @@ Each `@file` field gets these procedures, all running with the user's policies:
 `accept` and `maxSize` are validated per field. Global body limits and disk streaming come from
 `TmpFileUploadHandlerPlugin`.
 
-**Storages.** `createFsStorage` (`zenstack-orpc/node`) writes to a directory, and
-`createMemoryStorage` is meant for tests. `createS3Storage` (`zenstack-orpc/s3`, requires
+**Storages.** `createFsStorage` (`@azzerty23/zenstack-orpc/node`) writes to a directory, and
+`createMemoryStorage` is meant for tests. `createS3Storage` (`@azzerty23/zenstack-orpc/s3`, requires
 `aws4fetch`) works with AWS S3, Cloudflare R2, MinIO, B2 and Tigris, on Node, Bun, Deno and
 Workers:
 
 ```ts
-import { createS3Storage } from 'zenstack-orpc/s3'
+import { createS3Storage } from '@azzerty23/zenstack-orpc/s3'
 
 const storage = createS3Storage({
   bucketUrl: `https://${ACCOUNT_ID}.r2.cloudflarestorage.com/uploads`,
@@ -462,7 +462,7 @@ on the base client. After commit, it deletes the files of deleted records and th
 or cleared by an update. Rolled-back mutations keep their files.
 
 ```ts
-import { zenstackFiles } from 'zenstack-orpc'
+import { zenstackFiles } from '@azzerty23/zenstack-orpc'
 
 const storage = createFsStorage({ dir: 'uploads' })
 const db = new ZenStackClient(schema, { dialect }).$use(zenstackFiles(schema, storage))
@@ -500,8 +500,8 @@ oRPC v2 clients aren't generic, so results are typed by a thin overlay (an ident
 runtime). `select` / `include` / `omit` are inferred, and unknown keys are rejected.
 
 ```ts
-import { createZenStackClient } from 'zenstack-orpc/client'
-import { createZenStackQueryUtils } from 'zenstack-orpc/tanstack-query'
+import { createZenStackClient } from '@azzerty23/zenstack-orpc/client'
+import { createZenStackQueryUtils } from '@azzerty23/zenstack-orpc/tanstack-query'
 import { schema } from './zenstack/schema'
 import { fileFields } from './zenstack/orpc'
 
@@ -658,7 +658,7 @@ What zenstack-orpc doesn't do, by design or because of ZenStack or oRPC.
   schemas. Inferred results live in the client overlay. A 40-model chained schema is part of the
   type tests.
 - `@zenstackhq/client-helpers` (cache invalidation and optimistic updates) is bundled into
-  `zenstack-orpc/tanstack-query` without its bare `import "@zenstackhq/orm"`, so browser bundles
+  `@azzerty23/zenstack-orpc/tanstack-query` without its bare `import "@zenstackhq/orm"`, so browser bundles
   don't get the ORM.
 
 ## Development

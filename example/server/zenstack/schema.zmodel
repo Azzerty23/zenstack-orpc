@@ -11,7 +11,7 @@ plugin policy {
 
 // zenstack-orpc: declares `@file` and generates `orpc.ts`.
 plugin orpc {
-  provider = 'zenstack-orpc/plugin-orpc'
+  provider = '@azzerty23/zenstack-orpc/plugin-orpc'
 }
 
 // --- better-auth (accessed through the raw client, without policies) -------

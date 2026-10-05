@@ -1,6 +1,6 @@
+import { createZenStackRouter } from '@azzerty23/zenstack-orpc'
+import { createZenStackOpenAPIRouter } from '@azzerty23/zenstack-orpc/openapi'
 import { ORPCError, os } from '@orpc/server'
-import { createZenStackRouter } from 'zenstack-orpc'
-import { createZenStackOpenAPIRouter } from 'zenstack-orpc/openapi'
 import { docs } from '../zenstack/orpc'
 import { schema } from '../zenstack/schema'
 import type { AuthDb } from './db'

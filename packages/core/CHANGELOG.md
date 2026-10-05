@@ -1,6 +1,25 @@
 # Changelog
 
-## Unreleased
+## 0.1.0
+
+First release, for oRPC `2.0.0-beta.42` and ZenStack `3.9`.
+
+- `createZenStackRouter`: CRUD procedures for every model, validated with ZenStack's Zod schemas,
+  with ORM errors mapped to `ORPCError`s, `zenstackMeta`, a sequential `$transaction` and
+  configurable `limits` (`maxTake`, `defaultTake`, `maxDepth`, `maxTransactionSteps`).
+- `createZenStackOpenAPIRouter` (`@azzerty23/zenstack-orpc/openapi`): RESTful routes and a compact OpenAPI
+  document reusing ZenStack's schema names (`ZenStackJsonSchemaConverter`).
+- Live queries: `zenstackLive` ORM plugin, `$changes` stream with topics derived from queries
+  (ids and foreign keys), authorized once per subscription, checked against read policies
+  (`@@live(checkVisibility)`), database cascades included; `liveOptions` with `throttle`.
+- `@file` fields (`@azzerty23/zenstack-orpc/plugin-orpc` ZModel plugin): `upload` / `get` / `remove`
+  procedures, `accept` / `maxSize` validation, `FileStorage` (memory, filesystem), opt-in cleanup
+  with `@file(cleanup: true)` and the `zenstackFiles` ORM plugin (cascades included).
+- Client: `createZenStackClient` and `createZenStackQueryUtils` with results inferred from
+  `select` / `include` / `omit`, automatic invalidation, optimistic updates completed from
+  `auth()` and the cache, and composable types (`WithZenStack`, `WithClient`, `WithQueryUtils`).
+
+Also included:
 
 - **Optimistic updates follow `where` / `orderBy` / `take`.** Created records only appear in the
   lists they match, where they're sorted; updated records leaving a filtered list are removed.
@@ -38,7 +57,7 @@
   them back), typed JSON, `Decimal` and `Bytes` are typed and tested. In REST, `Bytes` are base64.
 - **Transactions.** `txRef(step, ...path)` references the result of an earlier
   `$transaction` step.
-- **Errors.** `isZenStackError(error, reason?)` (`zenstack-orpc/client`) narrows
+- **Errors.** `isZenStackError(error, reason?)` (`@azzerty23/zenstack-orpc/client`) narrows
   `error.data`.
 - **SSR.**
   - `zenstackHydration()` dehydrates and hydrates queries with `Date`, `BigInt`, `Decimal` and
@@ -47,7 +66,7 @@
 - **Files.**
   - `url` procedure (temporary download URLs).
   - `presign` / `confirm` procedures (direct uploads to the storage).
-  - `createS3Storage` (`zenstack-orpc/s3`: S3, R2, MinIO...).
+  - `createS3Storage` (`@azzerty23/zenstack-orpc/s3`: S3, R2, MinIO...).
   - `FileStorage.stat` / `url` / `presignUpload`.
   - REST downloads with `ETag` / `304`, `Range` / `206`, `cacheControl` and `redirect`.
   - `String[] @file` fields (several files per field).
@@ -60,22 +79,3 @@
   - `@file` writes (`upload`, `remove`, `confirm`) invalidate the queries of their model.
 - **REST paths.** Model paths no longer pluralize names that are already plural (`PostStats` →
   `/post-stats`).
-
-## 0.1.0
-
-First release, for oRPC `2.0.0-beta.42` and ZenStack `3.9`.
-
-- `createZenStackRouter`: CRUD procedures for every model, validated with ZenStack's Zod schemas,
-  with ORM errors mapped to `ORPCError`s, `zenstackMeta`, a sequential `$transaction` and
-  configurable `limits` (`maxTake`, `defaultTake`, `maxDepth`, `maxTransactionSteps`).
-- `createZenStackOpenAPIRouter` (`zenstack-orpc/openapi`): RESTful routes and a compact OpenAPI
-  document reusing ZenStack's schema names (`ZenStackJsonSchemaConverter`).
-- Live queries: `zenstackLive` ORM plugin, `$changes` stream with topics derived from queries
-  (ids and foreign keys), authorized once per subscription, checked against read policies
-  (`@@live(checkVisibility)`), database cascades included; `liveOptions` with `throttle`.
-- `@file` fields (`zenstack-orpc/plugin-orpc` ZModel plugin): `upload` / `get` / `remove`
-  procedures, `accept` / `maxSize` validation, `FileStorage` (memory, filesystem), opt-in cleanup
-  with `@file(cleanup: true)` and the `zenstackFiles` ORM plugin (cascades included).
-- Client: `createZenStackClient` and `createZenStackQueryUtils` with results inferred from
-  `select` / `include` / `omit`, automatic invalidation, optimistic updates completed from
-  `auth()` and the cache, and composable types (`WithZenStack`, `WithClient`, `WithQueryUtils`).

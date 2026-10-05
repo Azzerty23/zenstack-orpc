@@ -1,5 +1,5 @@
 {
-  "name": "zenstack-orpc",
+  "name": "@azzerty23/zenstack-orpc",
   "version": "0.1.0",
   "description": "Generate a fully typed oRPC v2 router (RPC + OpenAPI/REST, live queries, files) from a ZenStack v3 schema",
   "license": "MIT",

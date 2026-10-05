@@ -13,6 +13,7 @@
     "example/server": {
       "name": "@example/server",
       "dependencies": {
+        "@azzerty23/zenstack-orpc": "workspace:*",
         "@hono/node-server": "^1.19.0",
         "@orpc/node": "catalog:",
         "@orpc/openapi": "catalog:",
@@ -27,7 +28,6 @@
         "better-auth": "^1.7.0",
         "better-sqlite3": "catalog:",
         "hono": "^4.13.0",
-        "zenstack-orpc": "workspace:*",
         "zod": "catalog:",
       },
       "devDependencies": {
@@ -43,6 +43,7 @@
     "example/web": {
       "name": "@example/web",
       "dependencies": {
+        "@azzerty23/zenstack-orpc": "workspace:*",
         "@example/server": "workspace:*",
         "@orpc/client": "catalog:",
         "@orpc/tanstack-query": "catalog:",
@@ -52,7 +53,6 @@
         "better-auth": "^1.7.0",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
-        "zenstack-orpc": "workspace:*",
       },
       "devDependencies": {
         "@orpc/server": "catalog:",
@@ -66,7 +66,7 @@
       },
     },
     "packages/core": {
-      "name": "zenstack-orpc",
+      "name": "@azzerty23/zenstack-orpc",
       "version": "0.1.0",
       "dependencies": {
         "@zenstackhq/common-helpers": "catalog:",
@@ -159,6 +159,8 @@
     "zod": "^4.5.0",
   },
   "packages": {
+    "@azzerty23/zenstack-orpc": ["@azzerty23/zenstack-orpc@workspace:packages/core"],
+
     "@babel/code-frame": ["@babel/code-frame@7.29.7", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.29.7", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw=="],
 
     "@babel/compat-data": ["@babel/compat-data@7.29.7", "", {}, "sha512-locTkQyKvwIEgBzVrn8693ebc97F2U8ZHjbXwDXJ5Fn2TCpNwTlKcaKLkdHop5c/icOFE7qt7Q9JC5hnKNa6Gg=="],
@@ -1120,8 +1122,6 @@
     "yuku-codegen": ["yuku-codegen@0.10.2", "", { "dependencies": { "@yuku-toolchain/types": "^0.10.2" }, "optionalDependencies": { "@yuku-codegen/binding-android-arm64": "0.10.2", "@yuku-codegen/binding-darwin-arm64": "0.10.2", "@yuku-codegen/binding-darwin-x64": "0.10.2", "@yuku-codegen/binding-freebsd-x64": "0.10.2", "@yuku-codegen/binding-linux-arm-gnu": "0.10.2", "@yuku-codegen/binding-linux-arm-musl": "0.10.2", "@yuku-codegen/binding-linux-arm64-gnu": "0.10.2", "@yuku-codegen/binding-linux-arm64-musl": "0.10.2", "@yuku-codegen/binding-linux-x64-gnu": "0.10.2", "@yuku-codegen/binding-linux-x64-musl": "0.10.2", "@yuku-codegen/binding-win32-arm64": "0.10.2", "@yuku-codegen/binding-win32-x64": "0.10.2" } }, "sha512-hentl2dtrF6cPjiAirtkfxfFZBA6Hdm61UqRJ7cA0qrlDNMk9PZGOjw5w1mx3E0hu/6pHcJF4dJW+D0SXHPZOA=="],
 
     "yuku-parser": ["yuku-parser@0.10.2", "", { "dependencies": { "@yuku-toolchain/types": "^0.10.2", "yuku-ast": "^0.10.2" }, "optionalDependencies": { "@yuku-parser/binding-android-arm64": "0.10.2", "@yuku-parser/binding-darwin-arm64": "0.10.2", "@yuku-parser/binding-darwin-x64": "0.10.2", "@yuku-parser/binding-freebsd-x64": "0.10.2", "@yuku-parser/binding-linux-arm-gnu": "0.10.2", "@yuku-parser/binding-linux-arm-musl": "0.10.2", "@yuku-parser/binding-linux-arm64-gnu": "0.10.2", "@yuku-parser/binding-linux-arm64-musl": "0.10.2", "@yuku-parser/binding-linux-x64-gnu": "0.10.2", "@yuku-parser/binding-linux-x64-musl": "0.10.2", "@yuku-parser/binding-win32-arm64": "0.10.2", "@yuku-parser/binding-win32-x64": "0.10.2" } }, "sha512-CgaU0/PPjCAIEZ3WQroosOxTY3eeKldAN3h+vk8pMNz4+jl1CZzBR4pW+K/rRPF112VooCL5FdjJoiMNjDrL2A=="],
-
-    "zenstack-orpc": ["zenstack-orpc@workspace:packages/core"],
 
     "zod": ["zod@4.6.5", "", {}, "sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q=="],
 

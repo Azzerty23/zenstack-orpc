@@ -1,5 +1,5 @@
+import { ZenStackJsonSchemaConverter } from '@azzerty23/zenstack-orpc/openapi'
 import { type OpenAPIDocument, OpenAPIGenerator } from '@orpc/openapi'
-import { ZenStackJsonSchemaConverter } from 'zenstack-orpc/openapi'
 import { auth } from './auth'
 import { restRouter } from './router'
 

@@ -29,7 +29,7 @@
     "better-auth": "^1.7.0",
     "better-sqlite3": "catalog:",
     "hono": "^4.13.0",
-    "zenstack-orpc": "workspace:*",
+    "@azzerty23/zenstack-orpc": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {
