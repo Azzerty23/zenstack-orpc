@@ -1,0 +1,24 @@
+/**
+ * Marks a `String` field as a file reference managed by zenstack-orpc.
+ *
+ * The field stores the storage key of the file (`String[]`: of several files, on databases
+ * supporting lists). zenstack-orpc generates dedicated `<model>.<field>.upload / get / remove`
+ * procedures for it (plus `url`, `presign` and `confirm` with storages supporting them).
+ *
+ * @param accept: accepted MIME types, wildcards allowed (e.g. `['image/*', 'application/pdf']`).
+ * @param maxSize: maximum file size in bytes.
+ * @param cleanup: delete the stored file once it's no longer referenced: field replaced or
+ *   cleared by `upload` / `remove`, and, with the `zenstackFiles` runtime plugin, any write or
+ *   delete, database cascades included. Defaults to `false`: files are only deleted when
+ *   explicitly requested.
+ */
+attribute @file(accept: String[]?, maxSize: Int?, cleanup: Boolean?) @@@targetField([StringField])
+
+/**
+ * Live query options of a model (`$changes` stream).
+ *
+ * @param checkVisibility: before notifying a subscriber of a create or update, check that it can
+ *   read the changed record (one query per subscriber, model and batch). Turn it off for models
+ *   anyone can read (public posts...), where it only costs queries. Defaults to `true`.
+ */
+attribute @@live(checkVisibility: Boolean?)

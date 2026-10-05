@@ -1,0 +1,39 @@
+// Field-level policies (`@allow` / `@deny` on fields) and `post-update` rules.
+datasource db {
+  provider = 'sqlite'
+}
+
+plugin policy {
+  provider = '@zenstackhq/plugin-policy'
+}
+
+plugin orpc {
+  provider = '../../../src/zenstack/plugin-orpc.ts'
+}
+
+model User {
+  id        String     @id
+  role      String     @default('USER')
+  employee  Employee?
+
+  @@allow('all', true)
+}
+
+model Employee {
+  id       String  @id @default(cuid())
+  name     String
+  /// Read by the employee and HR, changed by HR only.
+  salary   Int     @allow('read', auth() == user || auth().role == 'HR') @allow('update', auth().role == 'HR')
+  /// Same rules as `salary`.
+  contract String? @file(cleanup: true) @allow('read', auth() == user || auth().role == 'HR') @allow('update', auth().role == 'HR')
+  /// Written by the employee, read by HR only.
+  review   String? @file(cleanup: true) @allow('read', auth().role == 'HR')
+  status   String  @default('draft')
+  user     User    @relation(fields: [userId], references: [id])
+  userId   String  @unique
+
+  @@allow('read', true)
+  @@allow('create,update', auth() == user || auth().role == 'HR')
+  // A validated record can't go back to draft.
+  @@deny('post-update', before().status == 'validated' && status == 'draft')
+}

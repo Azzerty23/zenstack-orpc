@@ -1,0 +1,37 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalPassThroughEnv": [
+    "PORT",
+    "SERVER_URL",
+    "DATABASE_URL",
+    "BETTER_AUTH_SECRET",
+    "WEB_ORIGIN",
+    "UPLOAD_DIR",
+    "UPLOAD_TMP_DIR"
+  ],
+  "tasks": {
+    "generate": {
+      "outputs": [
+        "zenstack/**",
+        "tests/fixtures/zenstack/**",
+        "tests/fixtures/large/zenstack/**",
+        "tests/fixtures/lists/zenstack/**"
+      ]
+    },
+    "build": {
+      "dependsOn": ["^build", "generate"],
+      "outputs": ["dist/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build", "generate"]
+    },
+    "test": {
+      "dependsOn": ["^build", "generate"]
+    },
+    "dev": {
+      "dependsOn": ["^build", "generate"],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "name": "zenstack-orpc-monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.2",
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "example/*"
+    ],
+    "catalog": {
+      "@orpc/client": "2.0.0-beta.42",
+      "@orpc/contract": "2.0.0-beta.42",
+      "@orpc/json-schema": "2.0.0-beta.42",
+      "@orpc/node": "2.0.0-beta.42",
+      "@orpc/openapi": "2.0.0-beta.42",
+      "@orpc/publisher": "2.0.0-beta.42",
+      "@orpc/server": "2.0.0-beta.42",
+      "@orpc/tanstack-query": "2.0.0-beta.42",
+      "@orpc/zod": "2.0.0-beta.42",
+      "@tanstack/query-core": "^5.90.0",
+      "@tanstack/react-query": "^5.90.0",
+      "@zenstackhq/better-auth": "3.9.7",
+      "@zenstackhq/cli": "3.9.7",
+      "@zenstackhq/client-helpers": "3.9.7",
+      "@zenstackhq/common-helpers": "3.9.7",
+      "@zenstackhq/orm": "3.9.7",
+      "@zenstackhq/plugin-policy": "3.9.7",
+      "@zenstackhq/sdk": "3.9.7",
+      "@zenstackhq/schema": "3.9.7",
+      "@zenstackhq/language": "3.9.7",
+      "better-sqlite3": "^12.5.0",
+      "@types/better-sqlite3": "^7.6.13",
+      "zod": "^4.5.0",
+      "typescript": "^5.9.3",
+      "vitest": "^4.1.11",
+      "tsdown": "^0.23.0"
+    }
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "biome check .",
+    "format": "biome format --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.0",
+    "turbo": "^2.6.0",
+    "typescript": "catalog:"
+  }
+}

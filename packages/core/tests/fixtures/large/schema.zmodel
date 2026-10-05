@@ -1,0 +1,727 @@
+// 40 chained models with many-to-many tags, to check that types stay within TypeScript limits.
+
+datasource db {
+  provider = 'sqlite'
+}
+
+model M0 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  children  M1[]
+  tags      Tag[]
+}
+
+model M1 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M0    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M2[]
+  tags      Tag[]
+}
+
+model M2 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M1    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M3[]
+  tags      Tag[]
+}
+
+model M3 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M2    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M4[]
+  tags      Tag[]
+}
+
+model M4 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M3    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M5[]
+  tags      Tag[]
+}
+
+model M5 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M4    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M6[]
+  tags      Tag[]
+}
+
+model M6 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M5    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M7[]
+  tags      Tag[]
+}
+
+model M7 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M6    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M8[]
+  tags      Tag[]
+}
+
+model M8 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M7    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M9[]
+  tags      Tag[]
+}
+
+model M9 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M8    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M10[]
+  tags      Tag[]
+}
+
+model M10 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M9    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M11[]
+  tags      Tag[]
+}
+
+model M11 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M10    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M12[]
+  tags      Tag[]
+}
+
+model M12 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M11    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M13[]
+  tags      Tag[]
+}
+
+model M13 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M12    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M14[]
+  tags      Tag[]
+}
+
+model M14 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M13    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M15[]
+  tags      Tag[]
+}
+
+model M15 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M14    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M16[]
+  tags      Tag[]
+}
+
+model M16 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M15    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M17[]
+  tags      Tag[]
+}
+
+model M17 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M16    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M18[]
+  tags      Tag[]
+}
+
+model M18 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M17    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M19[]
+  tags      Tag[]
+}
+
+model M19 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M18    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M20[]
+  tags      Tag[]
+}
+
+model M20 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M19    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M21[]
+  tags      Tag[]
+}
+
+model M21 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M20    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M22[]
+  tags      Tag[]
+}
+
+model M22 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M21    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M23[]
+  tags      Tag[]
+}
+
+model M23 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M22    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M24[]
+  tags      Tag[]
+}
+
+model M24 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M23    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M25[]
+  tags      Tag[]
+}
+
+model M25 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M24    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M26[]
+  tags      Tag[]
+}
+
+model M26 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M25    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M27[]
+  tags      Tag[]
+}
+
+model M27 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M26    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M28[]
+  tags      Tag[]
+}
+
+model M28 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M27    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M29[]
+  tags      Tag[]
+}
+
+model M29 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M28    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M30[]
+  tags      Tag[]
+}
+
+model M30 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M29    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M31[]
+  tags      Tag[]
+}
+
+model M31 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M30    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M32[]
+  tags      Tag[]
+}
+
+model M32 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M31    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M33[]
+  tags      Tag[]
+}
+
+model M33 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M32    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M34[]
+  tags      Tag[]
+}
+
+model M34 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M33    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M35[]
+  tags      Tag[]
+}
+
+model M35 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M34    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M36[]
+  tags      Tag[]
+}
+
+model M36 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M35    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M37[]
+  tags      Tag[]
+}
+
+model M37 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M36    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M38[]
+  tags      Tag[]
+}
+
+model M38 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M37    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  children  M39[]
+  tags      Tag[]
+}
+
+model M39 {
+  id        String   @id @default(cuid())
+  f0        String
+  f1        Int
+  f2        Boolean
+  f3        DateTime
+  f4        Float
+  f5        String?
+  f6        Int?
+  f7        Json?
+  createdAt DateTime @default(now())
+  parent    M38    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId  String
+  tags      Tag[]
+}
+
+model Tag {
+  id     String @id @default(cuid())
+  name   String
+  m0    M0[]
+  m1    M1[]
+  m2    M2[]
+  m3    M3[]
+  m4    M4[]
+  m5    M5[]
+  m6    M6[]
+  m7    M7[]
+  m8    M8[]
+  m9    M9[]
+  m10    M10[]
+  m11    M11[]
+  m12    M12[]
+  m13    M13[]
+  m14    M14[]
+  m15    M15[]
+  m16    M16[]
+  m17    M17[]
+  m18    M18[]
+  m19    M19[]
+  m20    M20[]
+  m21    M21[]
+  m22    M22[]
+  m23    M23[]
+  m24    M24[]
+  m25    M25[]
+  m26    M26[]
+  m27    M27[]
+  m28    M28[]
+  m29    M29[]
+  m30    M30[]
+  m31    M31[]
+  m32    M32[]
+  m33    M33[]
+  m34    M34[]
+  m35    M35[]
+  m36    M36[]
+  m37    M37[]
+  m38    M38[]
+  m39    M39[]
+}

@@ -1,0 +1,147 @@
+// Single source of truth: better-auth tables, app models and access policies.
+// After a change: `bun run generate` (regenerates schema.ts and orpc.ts).
+
+datasource db {
+  provider = 'sqlite'
+}
+
+plugin policy {
+  provider = '@zenstackhq/plugin-policy'
+}
+
+// zenstack-orpc: declares `@file` and generates `orpc.ts`.
+plugin orpc {
+  provider = 'zenstack-orpc/plugin-orpc'
+}
+
+// --- better-auth (accessed through the raw client, without policies) -------
+
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique @allow('read', auth().id == id)
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+  todos         Todo[]
+  posts         Post[]
+  messages      Message[]
+
+  @@allow('read', auth() != null)
+  @@allow('update', auth().id == id)
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime
+  updatedAt  DateTime
+}
+
+// --- App ---------------------------------------------------------------------
+
+/// Private todo list: only its owner can see or change a todo.
+model Todo {
+  id        Int      @id @default(autoincrement())
+  title     String   @length(1, 200)
+  done      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String   @default(auth().id)
+  /// Set when archived: the post summing up the archived todos.
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+  postId    String?
+
+  @@allow('all', auth() == owner)
+}
+
+/// Public posts: everybody signed in can read published posts, authors manage theirs.
+/// Polymorphic (`@@delegate(kind)`): a post is an `Article` or a `Photo`. Shared fields live in
+/// the `Post` table, the others in the sub-model's; `post.findMany` returns both kinds, typed as
+/// a union narrowed by `kind`. Sub-models inherit the access policies.
+model Post {
+  id        String   @id @default(cuid())
+  title     String   @length(1, 120)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String   @default(auth().id)
+  todos     Todo[]
+  kind      String
+
+  @@delegate(kind)
+  @@allow('read', auth() != null && (published || auth() == author))
+  @@allow('all', auth() == author)
+}
+
+/// A text post.
+model Article extends Post {
+  content String?
+}
+
+/// An image with an optional caption.
+model Photo extends Post {
+  image   String? @file(accept: ['image/*'], maxSize: 5242880, cleanup: true)
+  caption String? @length(0, 280)
+}
+
+/// A chat room: everybody signed in can read it and post in it.
+model Room {
+  id        String    @id @default(cuid())
+  name      String    @length(1, 60)
+  createdAt DateTime  @default(now())
+  messages  Message[]
+
+  @@allow('read', auth() != null)
+  @@allow('create', auth() != null)
+}
+
+/// A chat message: readable by everybody signed in, edited or deleted by its author.
+model Message {
+  id        String    @id @default(cuid())
+  text      String    @length(1, 1000)
+  createdAt DateTime  @default(now())
+  /// Set when the author edits the message.
+  editedAt  DateTime?
+  room      Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId    String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String    @default(auth().id)
+
+  @@allow('read', auth() != null)
+  @@allow('create,update,delete', auth() == author)
+}

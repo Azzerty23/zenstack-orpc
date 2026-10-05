@@ -1,0 +1,140 @@
+datasource db {
+  provider = 'sqlite'
+}
+
+plugin policy {
+  provider = '@zenstackhq/plugin-policy'
+}
+
+plugin orpc {
+  provider = '../../src/zenstack/plugin-orpc.ts'
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+type Address {
+  street String
+  city   String
+  zip    String?
+}
+
+model User {
+  id      String   @id @default(cuid())
+  email   String   @unique @email
+  name    String?
+  role    Role     @default(USER)
+  posts   Post[]
+  todos   Todo[]
+  profile Profile?
+  avatar  String?  @file(accept: ['image/*'], maxSize: 1048576, cleanup: true)
+  address Address? @json
+  settings Json?
+  balance Decimal  @default(0)
+  secret  Bytes?   @omit
+  /// Number of posts, computed by the database (`computedFields` of the client).
+  postCount Int    @computed
+  assets  Asset[]
+
+  @@allow('read', true)
+  @@allow('all', auth() == this)
+}
+
+model Profile {
+  id     String @id @default(cuid())
+  bio    String @length(1, 200)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+
+  @@allow('read', true)
+  @@allow('all', auth() == user)
+  // Public: skip the per-subscriber read check of live notifications.
+  @@live(checkVisibility: false)
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String   @length(1, 100)
+  content   String?
+  published Boolean  @default(false)
+  views     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String   @default(auth().id)
+  cover     String?  @file(accept: ['image/png', 'image/jpeg'], maxSize: 1048576, cleanup: true)
+  /// Kept in storage when the post is deleted or the field changes.
+  archive   String?  @file
+  attachments Attachment[]
+
+  @@allow('read', published || auth() == author)
+  @@allow('all', auth() == author)
+}
+
+/// Deleted with its post (and its post's author), files included.
+model Attachment {
+  id     String  @id @default(cuid())
+  post   Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+  file   String? @file(cleanup: true)
+  /// Kept in storage, even when a cascade deletes the attachment.
+  thumbnail String? @file(cleanup: false)
+
+  @@allow('all', auth() == post.author)
+}
+
+model Todo {
+  id      Int     @id @default(autoincrement())
+  /// Overridden by `@meta('description')`.
+  title   String  @meta('description', 'What to do')
+  done    Boolean @default(false)
+  owner   User    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String  @default(auth().id)
+
+  @@allow('all', auth() == owner)
+  @@meta('description', 'A task of its owner.')
+  @@meta('openapi:tags', ['Tasks'])
+}
+
+model Tag {
+  name  String
+  scope String
+  label String?
+
+  @@id([name, scope])
+  @@allow('all', true)
+  @@meta('openapi:path', '/labels')
+}
+
+/// Polymorphic base model (`@@delegate`): rows live in `Asset` and in the sub-model's table.
+model Asset {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String   @default(auth().id)
+  kind      String
+  /// Deleted with the asset, from whichever model the asset is deleted.
+  preview   String?  @file(cleanup: true)
+
+  @@delegate(kind)
+  @@allow('all', auth() == owner)
+}
+
+model Video extends Asset {
+  duration Int
+  source   String? @file(accept: ['video/*'], cleanup: true)
+}
+
+model Image extends Asset {
+  format String
+}
+
+/// Database view (created by a migration, not by `$pushSchema`): read-only.
+view PostStats {
+  authorId String @unique
+  posts    Int
+
+  @@allow('read', true)
+}

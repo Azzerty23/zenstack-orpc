@@ -1,0 +1,162 @@
+{
+  "name": "zenstack-orpc",
+  "version": "0.1.0",
+  "description": "Generate a fully typed oRPC v2 router (RPC + OpenAPI/REST, live queries, files) from a ZenStack v3 schema",
+  "license": "MIT",
+  "author": "Azzerty23",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azzerty23/zenstack-orpc.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/Azzerty23/zenstack-orpc/tree/main/packages/core#readme",
+  "bugs": {
+    "url": "https://github.com/Azzerty23/zenstack-orpc/issues"
+  },
+  "keywords": [
+    "zenstack",
+    "orpc",
+    "orm",
+    "rpc",
+    "openapi",
+    "rest",
+    "tanstack-query",
+    "react-query",
+    "live-queries",
+    "realtime",
+    "typescript"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist",
+    "plugin.zmodel",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./openapi": {
+      "types": "./dist/openapi.d.ts",
+      "default": "./dist/openapi.js"
+    },
+    "./client": {
+      "types": "./dist/client/index.d.ts",
+      "default": "./dist/client/index.js"
+    },
+    "./tanstack-query": {
+      "types": "./dist/tanstack-query/index.d.ts",
+      "default": "./dist/tanstack-query/index.js"
+    },
+    "./node": {
+      "types": "./dist/node.d.ts",
+      "default": "./dist/node.js"
+    },
+    "./s3": {
+      "types": "./dist/s3.d.ts",
+      "default": "./dist/s3.js"
+    },
+    "./plugin-orpc": {
+      "types": "./dist/zenstack/plugin-orpc.d.ts",
+      "default": "./dist/zenstack/plugin-orpc.js"
+    },
+    "./plugin-orpc/plugin.zmodel": "./plugin.zmodel",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "generate": "zen generate --schema tests/fixtures/schema.zmodel --output tests/fixtures/zenstack && zen generate --schema tests/fixtures/large/schema.zmodel --output tests/fixtures/large/zenstack && zen generate --schema tests/fixtures/lists/schema.zmodel --output tests/fixtures/lists/zenstack && zen generate --schema tests/fixtures/policies/schema.zmodel --output tests/fixtures/policies/zenstack && zen generate --schema tests/fixtures/search/schema.zmodel --output tests/fixtures/search/zenstack",
+    "test": "vitest run",
+    "test:postgres": "TEST_DB=postgres vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@zenstackhq/common-helpers": "catalog:"
+  },
+  "peerDependencies": {
+    "@orpc/client": "2.0.0-beta.42",
+    "@orpc/json-schema": "2.0.0-beta.42",
+    "@orpc/node": "2.0.0-beta.42",
+    "@orpc/openapi": "2.0.0-beta.42",
+    "@orpc/publisher": "2.0.0-beta.42",
+    "@orpc/server": "2.0.0-beta.42",
+    "@orpc/tanstack-query": "2.0.0-beta.42",
+    "@orpc/zod": "2.0.0-beta.42",
+    "@tanstack/query-core": "^5.80.2",
+    "@zenstackhq/language": "^3.9.0",
+    "@zenstackhq/orm": "^3.9.0",
+    "@zenstackhq/sdk": "^3.9.0",
+    "aws4fetch": "^1.0.20",
+    "zod": "^4.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@orpc/json-schema": {
+      "optional": true
+    },
+    "@orpc/node": {
+      "optional": true
+    },
+    "@orpc/openapi": {
+      "optional": true
+    },
+    "@orpc/publisher": {
+      "optional": true
+    },
+    "@orpc/tanstack-query": {
+      "optional": true
+    },
+    "@orpc/zod": {
+      "optional": true
+    },
+    "@tanstack/query-core": {
+      "optional": true
+    },
+    "@zenstackhq/language": {
+      "optional": true
+    },
+    "@zenstackhq/sdk": {
+      "optional": true
+    },
+    "aws4fetch": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@orpc/client": "catalog:",
+    "@orpc/json-schema": "catalog:",
+    "@orpc/node": "catalog:",
+    "@orpc/openapi": "catalog:",
+    "@orpc/publisher": "catalog:",
+    "@orpc/server": "catalog:",
+    "@orpc/tanstack-query": "catalog:",
+    "@orpc/zod": "catalog:",
+    "@tanstack/query-core": "catalog:",
+    "@types/better-sqlite3": "catalog:",
+    "@types/node": "^24.0.0",
+    "@zenstackhq/cli": "catalog:",
+    "@zenstackhq/client-helpers": "catalog:",
+    "@zenstackhq/language": "catalog:",
+    "@zenstackhq/orm": "catalog:",
+    "@zenstackhq/plugin-policy": "catalog:",
+    "@zenstackhq/schema": "catalog:",
+    "@zenstackhq/sdk": "catalog:",
+    "aws4fetch": "^1.0.20",
+    "better-sqlite3": "catalog:",
+    "decimal.js": "^10.6.0",
+    "kysely-pglite-dialect": "^1.3.1",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "zod": "catalog:"
+  }
+}

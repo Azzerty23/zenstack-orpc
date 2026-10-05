@@ -1,0 +1,35 @@
+{
+  "name": "@example/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "e2e:live": "tsx scripts/live-e2e.ts",
+    "e2e:browser": "tsx scripts/browser-e2e.ts",
+    "fake-s3": "tsx scripts/fake-s3.ts"
+  },
+  "dependencies": {
+    "@example/server": "workspace:*",
+    "@orpc/client": "catalog:",
+    "@orpc/tanstack-query": "catalog:",
+    "@tanstack/react-query": "catalog:",
+    "@tanstack/react-router": "^1.170.0",
+    "@zenstackhq/schema": "catalog:",
+    "better-auth": "^1.7.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zenstack-orpc": "workspace:*"
+  },
+  "devDependencies": {
+    "@orpc/server": "catalog:",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "playwright": "^1.63.0",
+    "tsx": "^4.20.0",
+    "typescript": "catalog:",
+    "vite": "^7.1.0"
+  }
+}

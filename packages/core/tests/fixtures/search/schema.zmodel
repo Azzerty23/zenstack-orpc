@@ -1,0 +1,30 @@
+// Fuzzy (`@fuzzy`, pg_trgm) and full-text (`@fullText`) search: PostgreSQL only, tested on PGlite.
+datasource db {
+  provider = 'postgresql'
+}
+
+plugin policy {
+  provider = '@zenstackhq/plugin-policy'
+}
+
+plugin orpc {
+  provider = '../../../src/zenstack/plugin-orpc.ts'
+}
+
+model Author {
+  id       String    @id @default(cuid())
+  name     String
+  articles Article[]
+
+  @@allow('all', true)
+}
+
+model Article {
+  id       String @id @default(cuid())
+  title    String @fuzzy @fullText
+  body     String @fullText
+  author   Author @relation(fields: [authorId], references: [id])
+  authorId String
+
+  @@allow('all', true)
+}

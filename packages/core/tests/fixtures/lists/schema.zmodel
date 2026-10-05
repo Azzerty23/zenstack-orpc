@@ -1,0 +1,21 @@
+// `String[] @file` needs a database with lists (PostgreSQL): tested on PGlite.
+datasource db {
+  provider = 'postgresql'
+}
+
+plugin policy {
+  provider = '@zenstackhq/plugin-policy'
+}
+
+plugin orpc {
+  provider = '../../../src/zenstack/plugin-orpc.ts'
+}
+
+model Gallery {
+  id     String   @id @default(cuid())
+  title  String
+  /// Several files: `gallery.photos.upload` appends one.
+  photos String[] @file(accept: ['image/*'], cleanup: true)
+
+  @@allow('all', true)
+}

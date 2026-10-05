@@ -1,0 +1,44 @@
+{
+  "name": "@example/server",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./router": "./src/router.ts",
+    "./schema": "./zenstack/schema.ts",
+    "./orpc-meta": "./zenstack/orpc.ts"
+  },
+  "scripts": {
+    "generate": "zen generate --schema zenstack/schema.zmodel --output zenstack",
+    "dev": "tsx watch --env-file-if-exists=.env src/index.ts",
+    "start": "tsx --env-file-if-exists=.env src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "e2e:rest": "tsx scripts/rest-e2e.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.0",
+    "@orpc/node": "catalog:",
+    "@orpc/openapi": "catalog:",
+    "@orpc/publisher": "catalog:",
+    "@orpc/server": "catalog:",
+    "@orpc/zod": "catalog:",
+    "@zenstackhq/better-auth": "catalog:",
+    "@zenstackhq/orm": "catalog:",
+    "@zenstackhq/plugin-policy": "catalog:",
+    "@zenstackhq/schema": "catalog:",
+    "aws4fetch": "^1.0.20",
+    "better-auth": "^1.7.0",
+    "better-sqlite3": "catalog:",
+    "hono": "^4.13.0",
+    "zenstack-orpc": "workspace:*",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "catalog:",
+    "@types/node": "^24.0.0",
+    "@zenstackhq/cli": "catalog:",
+    "@zenstackhq/language": "catalog:",
+    "@zenstackhq/sdk": "catalog:",
+    "tsx": "^4.20.0",
+    "typescript": "catalog:"
+  }
+}
